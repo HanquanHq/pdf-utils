@@ -5,7 +5,7 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
-IMG_PATH = 'img-raw/example.png'
+IMG_PATH = '/home/gly/workspace/pdf-utils/img-raw/example.png'
 RAW_PDF_PATH = "/home/gly/workspace/pdf-utils/pdf-raw"
 TARGET_PDF_PATH = "target/"
 HEIGHT_SCALE = 5
@@ -25,7 +25,7 @@ def gen_pdf(pdf_path, pdf_name):
         output.addPage(raw_pdf.getPage(num))
     
     # calculate width 
-    last_page = output.getPage(page_nums - 1)
+    last_page = output.getPage(page_nums-1)
     if last_page.get('/Rotate', 0) in [90, 270]:
         height, width = last_page['/MediaBox'][2], last_page['/MediaBox'][3]
     else:
@@ -36,7 +36,7 @@ def gen_pdf(pdf_path, pdf_name):
     # convert img to pdf
     imgTemp = BytesIO()
     imgDoc = canvas.Canvas(imgTemp, pagesize=A4)
-    imgDoc.drawImage(img_path, 10, 10, int(HEIGHT_SCALE/5), int(WIDTH_SCALE/10), mask='auto') # left bottom corner
+    imgDoc.drawImage(img_path, 0, 0, mask='auto') # left bottom corner
     imgDoc.save()
     img_pdf.addPage(PdfFileReader(BytesIO(imgTemp.getvalue())).getPage(0))
 
